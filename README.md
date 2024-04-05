@@ -24,7 +24,7 @@ Canvas Group Number: 6 <br>
 A weather app that can get the weather based on GPS or manual data entry. It will store data like search history on the device, communicate with the backend authentication, and login systems. <br>
 
 **Project Choice 2(2nd Preference): Dating App**
-A dating app that allows the users to browse other profiles in a social media like manner. Users will be able to talk to each other via direct messages or group conversations. It will store data on the device, communicate backend authentication, and login systems. <br><br>
+A dating app that allows the users to browse other profiles in a social media like manner. Users will be able to talk to each other via direct messages or group conversations. It will store data on the device, communicate backend authentication, and login systems. <br>
 **Project Choice 3(3rd Preference): Music Website/App**
 A music app or website that will take audio files from the user to play. It will also download or stream audio from a backend server. The app or website will store data on the device, communicate with backend authentication, and login systems. <br><hr>
 
