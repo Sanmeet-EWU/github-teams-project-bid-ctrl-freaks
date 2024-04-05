@@ -21,7 +21,7 @@ Canvas Group Number: 6 <br>
 
 **Choice of Projects (Brief 2–3-line description about the problem statement and type of project like a Mobile app/Webapp/Something else)** <br> <br>
 **Project Choice 1(1st Preference): Weather App**
-A weather app that can get the weather based on GPS or manual data entry. It will store data like search history on the device, communicate with the backend authentication, and login systems. <br><br>
+A weather app that can get the weather based on GPS or manual data entry. It will store data like search history on the device, communicate with the backend authentication, and login systems. <br>
 
 **Project Choice 2(2nd Preference): Dating App**
 A dating app that allows the users to browse other profiles in a social media like manner. Users will be able to talk to each other via direct messages or group conversations. It will store data on the device, communicate backend authentication, and login systems. <br><br>
