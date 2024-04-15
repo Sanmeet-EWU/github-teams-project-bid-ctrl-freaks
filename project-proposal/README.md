@@ -8,7 +8,7 @@ Weather App
 <br/>
 Version 1.0
 <br/> <hr/> 
-Submitted By:
+Submitted By: <br><br>
 
 | Name           	| Email ID          	|
 |----------------	|-------------------	|
