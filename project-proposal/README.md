@@ -50,6 +50,7 @@ We will be utilizing a database that holds users’ account information such as 
 Our general hardware components will be smartphones and tablets, essentially any mobile devices that a user would bring with them when they are on the go.
 
 <hr/>
+
 **Challenges and Risks:
 What is the single most serious challenge you see in developing the product on schedule? How will you minimize or mitigate the risk?** <br/><br/>
 We foresee there being several challenges, such as learning JavaScript and implementing a Vue based frontend as a mobile application. We plan on mitigating it by properly scoping out what needs to be done, separating the workload into reasonable sized projects in a viable time scale, and ensuring that we are all fully aware of both the individual/team goals and objectives that need to be accomplished.
