@@ -1,5 +1,5 @@
 <hr>
-Project Bid <br>
+Project Bid <br><br/>
 CSCD350 - Software Development <br>
 Team Name: Ctrl Freaks <br>
 Date: 04/05/2024 <br>
