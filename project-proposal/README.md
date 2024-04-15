@@ -1,5 +1,5 @@
 <hr/> 
-Project Proposal <br/>
+Project Proposal <br/><br/>
 CSCD350 - Software Development <br>
 Team Name: Ctrl Freaks <br/>
 Canvas Group Number: 6
