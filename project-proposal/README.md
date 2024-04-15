@@ -1,13 +1,12 @@
-<hr/>
-**Project Proposal for CSCD 350 Spring 2024** <br/>
-
-*Weather App*
-<br/>
-*Version 1.0*
-<br/> <br/>
+<hr/> 
+Project Proposal <br/>
 CSCD350 - Software Development <br>
 Team Name: Ctrl Freaks <br/>
 Canvas Group Number: 6
+<br/><br/>
+Weather App
+<br/>
+Version 1.0
 <br/> <hr/> 
 Submitted By:
 
@@ -55,3 +54,4 @@ Our general hardware components will be smartphones and tablets, essentially any
 **Challenges and Risks:
 What is the single most serious challenge you see in developing the product on schedule? How will you minimize or mitigate the risk?** <br/><br/>
 We foresee there being several challenges, such as learning JavaScript and implementing a Vue based frontend as a mobile application. We plan on mitigating it by properly scoping out what needs to be done, separating the workload into reasonable sized projects in a viable time scale, and ensuring that we are all fully aware of both the individual/team goals and objectives that need to be accomplished.
+<hr/>
