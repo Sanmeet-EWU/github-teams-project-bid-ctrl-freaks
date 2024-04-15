@@ -38,16 +38,15 @@ The user can utilize the information to help properly make plans by expecting we
 
 
 5. **Describe the general flow for addressing the problem. The existing (or imagined) flow does not have to involve a computation solution.** <br/><br/>
-![]()
+![](https://github.com/Sanmeet-EWU/github-teams-project-bid-ctrl-freaks/blob/main/project-proposal/weatherAppDiagram.jpg)
 
-
-6. **What is the general nature of the solution? For example, app, standalone program, website, plug-in.** <br/><br/>
+7. **What is the general nature of the solution? For example, app, standalone program, website, plug-in.** <br/><br/>
 We are leaning towards a building a mobile application as it feels more aligned to the project’s goals. We plan on using a plethora of available services such as a weather API (Weatherbit.io, Openweathermap...), a frontend service such as Vue, and a backend service such as Firebase/PHP. User feedback could also be utilized to help with the accuracy of our app. 
 
-7. **List the general software components you envision playing a role. For example, web server, database, game engine.** <br/><br/>
+8. **List the general software components you envision playing a role. For example, web server, database, game engine.** <br/><br/>
 We will be utilizing a database that holds users’ account information such as their search history and “favorites” locations together with user profile, and we will also be using webservers (for both the frontend and for the backend).
 
-8. **List the general hardware components you envision playing a role. For example, drone, VR headset, tablet. You are responsible for your own hardware, so be reasonable.**	<br/><br/>
+9. **List the general hardware components you envision playing a role. For example, drone, VR headset, tablet. You are responsible for your own hardware, so be reasonable.**	<br/><br/>
 Our general hardware components will be smartphones and tablets, essentially any mobile devices that a user would bring with them when they are on the go.
 
 <hr/>
