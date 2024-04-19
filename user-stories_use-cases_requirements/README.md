@@ -1,5 +1,5 @@
 <hr/>
-User Stories, Use Cases and Requirements for CSCD 350 Spring 2024 <br/><br/>
+User Stories, Use Cases and Requirements<br/><br/>
 
 CSCD350 - Software Development <br>
 Team Name: Ctrl Freaks <br>
