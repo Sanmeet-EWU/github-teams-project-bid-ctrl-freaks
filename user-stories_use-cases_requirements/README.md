@@ -22,7 +22,7 @@ GSA: Dominic Maclsaac, Harley Davis <br/>
 Lab Section:	2 <br/>
 Date: 04/19/2024 <br/> <hr/>
 
-1. **Part 1: User Stories Based on the project description, add the user stories of this form: .** <br/><br/>
+1. **User Stories Based on the project description, add the user stories of this form: .** <br/><br/>
 *As a [type of user], I want [an action] so that [a benefit/a value results]* <br><br>
 U1 Hiker <br>
 As a hiker, I want to be able to view the weather forecast, so that I know how to dress and what trails will or will not be reasonable to hike based on the conditions. <br><br>
@@ -42,8 +42,36 @@ U8 People with Dependents<br>
 As a parent, I want to use the app to check the forecast for dangerous events like hail or thunderstorms so that I can ensure my kid can play outside in a safe and healthy environment. 
  <br/>
 
-2. **Part 2: Use Case Diagrams** <br/><br/>
+2. **Use Case Diagrams** <br/><br/>
+![](https://github.com/Sanmeet-EWU/github-teams-project-bid-ctrl-freaks/blob/main/user-stories_use-cases_requirements/useCaseDiagram.jpg) <br><br>
+3. **Requirements and Specifications** <br/><br/>
+R1 (U1-7) <br>
+There will be a feature to show the current weather/forecasted weather in your area.<br><br>
+R2 (U2,3,8)<br>
+There will be a feature to show the current weather/forecasted weather in other areas.<br><br>
+R3 (U4,6)<br>
+There will be a feature to track the current air quality and the forecasted air quality for an area.<br><br>
+R4 (U1-8)<br>
+There will be notifications if dangerous weather conditions are in your area.<br><br>
+R5 (U1-8)<br>
+There will be an option to choose what time and time scale you want.<br><br>
+R6 (U1-8)<br>
+There will be a profile system for tracking history and saving locations/preferences using backend
+storage systems with SQL.<br><br>
+R7 (U1-8)<br>
+There will be a log in system using Firebase security systems.<br><br>
+R8 (U1-8)<br>
+There will be a visual presentation of the current weather using Vue to make visual parsing easier.<br><br>
+R9 (U1-8)<br>
+There will be a microservice that when given coordinates or a city/zip code returns formatted weather
+information to our front-end requester.<br><br>
 
-3. **Part 3: Requirements and Specifications** <br/><br/>
+4. **Glossary** <br/>
+- Vue – A framework for creating user interfaces that is built with JavaScript
+- SQL – A language for managing and storing data
+- FireBase – A backend as a service provided by Google
+- Microservices – A small segment/component of an application or feature
+- Opt In – The user is prompted if they want a feature(s) to be enabled
+- Opt Out – The user is able to disable a certain feature(s) within the app
 
-4. **Part 4: Glossary** <br/><br/>
+<hr>
