@@ -4,3 +4,4 @@
 - ##### [Project Bid](https://github.com/Sanmeet-EWU/github-teams-project-bid-ctrl-freaks/tree/main/project-bid)
 - ##### [Project Proposal](https://github.com/Sanmeet-EWU/github-teams-project-bid-ctrl-freaks/tree/main/project-proposal)
 - ##### [User Stories, Use Cases and Requirements](https://github.com/Sanmeet-EWU/github-teams-project-bid-ctrl-freaks/tree/main/user-stories_use-cases_requirements)
+- ##### [Structural Modeling]()
