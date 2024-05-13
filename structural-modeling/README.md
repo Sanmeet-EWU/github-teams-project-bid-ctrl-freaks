@@ -24,6 +24,6 @@ GSA: Dominic Maclsaac, Harley Davis <br/>
 Lab Section:	2 <br/>
 Date: 04/29/2024 <br/> <hr/>
 
-![](https://github.com/Sanmeet-EWU/github-teams-project-bid-ctrl-freaks/blob/main/structural-modeling/classDiagram.jpg)
+![](https://github.com/Sanmeet-EWU/github-teams-project-bid-ctrl-freaks/blob/main/structural-modeling/classesDiagram.jpg)
 
 <hr/>
