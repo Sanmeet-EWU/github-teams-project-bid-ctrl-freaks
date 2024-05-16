@@ -1,0 +1,8 @@
+{
+  "name": "Weather Freak",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue-vite",
+  "id": "1deb1235"
+}
