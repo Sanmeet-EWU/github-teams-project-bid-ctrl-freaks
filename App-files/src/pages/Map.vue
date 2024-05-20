@@ -14,7 +14,7 @@
 
 <script setup lang="ts">
 import { IonPage, IonHeader, IonToolbar, IonTitle } from '@ionic/vue';
-import { Geolocation } from '@capacitor/geolocation'; //imported this into page Map
+import { Geolocation } from '@capacitor/geolocation'; //imported Geolocation from capacitor
 import { ref, onMounted } from 'vue'; //imported as well 
 
 const lat = ref<number | null>(null);
