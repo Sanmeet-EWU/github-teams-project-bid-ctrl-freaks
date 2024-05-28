@@ -60,6 +60,12 @@ import { ref } from 'vue' //Imported this
 import datas from './forecast.json'
 import MainWeather from '@/components/MainWeather.vue'
 import InfoTab from '@/components/InfoTab.vue'
+import { onMounted } from 'vue';
+
+/*onMounted(() => {
+  //set the defualt color to white
+});
+*/
 
 const data = datas  //this import data directly from json files and use it
 

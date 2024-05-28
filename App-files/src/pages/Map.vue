@@ -48,7 +48,7 @@ ion-content {
   --background-blend-mode: none;
   }
   .location {
-    color: black;
+    color: red;
     text-align: center;
     font-size: 1.5rem;
     font-weight: bold;
