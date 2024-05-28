@@ -31,6 +31,24 @@
           </ion-card>
         </div>
       </div>
+
+      <div class="daily">
+        <h6 class="ion-padding-start">Weekly Forecast:</h6>
+        <div class="infoTab ion-padding">
+          <ion-card class="ion-padding" v-for="(hightemps,index) in hightemps" :key="index">
+            <!--Iterates through array of 7 hourly values, makes card for each one-->
+
+            <h4>{{getDay(index)}}</h4>
+            
+            <h3>High:</h3>
+            <h3>{{Math.round(hightemps) }}°F</h3> <!--Prints rounded temperature variable from script-->
+            <!--Calls formatHour function in script based on index to determine if time is AM or PM and print time-->
+            <img class="cardimg" src="../images/sunny.png" />
+            <h3>Low:</h3>
+            <h3>{{Math.round(mintemps[index])}}°F</h3> <!--Prints rounded temperature variable from script-->
+          </ion-card>
+        </div>
+      </div>
     </ion-content>
   </ion-page>
 </template>
@@ -46,7 +64,7 @@ import InfoTab from '@/components/InfoTab.vue'
 const data = datas  //this import data directly from json files and use it
 
 
-// Stores reference to the temperature array that is iterated through in the template
+// Stores reference to the hourly temperature array that is iterated through in the template
 const temp = ref(data.hourly.temperature_2m);
 
 // Formats hour time based on the index
@@ -54,6 +72,46 @@ function formatHour(index : number) {
   const hour = index % 12 === 0 ? 12 : index % 12;
   const ampm = index < 12 ? 'AM' : 'PM';
   return `${hour}:00 ${ampm}`;
+}
+
+
+// Stores reference to the daily high temperature array that is iterated through in the template
+const hightemps = ref(data.daily.temperature_2m_max);
+
+// Stores reference to the daily min temperature array that is iterated through in the template
+const mintemps = ref(data.daily.temperature_2m_min);
+
+// Formats hour time based on the index
+const date = new Date();
+function getDay(index: number) {
+  const day = date.getDay();
+  const actualValue = (day+index) % 7;
+  switch (actualValue) {
+    case 0:
+        return "Sunday";
+        break;
+    case 1:
+        return "Monday";
+        break;
+    case 2:
+        return "Tuesday";
+        break;
+    case 3:
+        return "Wednesday";
+        break;
+    case 4:
+        return "Thursday";
+        break;
+    case 5:
+         return "Friday";
+        break;
+    case 6:
+        return "Saturday";
+        break;
+    default:
+        console.log("No such day exists!");
+        break;
+      }
 }
 </script>
 
