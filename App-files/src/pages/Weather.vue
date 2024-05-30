@@ -13,7 +13,7 @@
     </ion-header>
 
     <ion-content>
-      <MainWeather City="Spokane,WA" weather="Thunderstorm" temperature="25°F" />
+      <MainWeather City="Spokane,WA" temperature="25°F" :weatherCode="getHourWeatherCode" />
 
       <div class="infoTab ion-padding">
         <InfoTab title="Humidity" value="50%" />
@@ -153,6 +153,12 @@ function getDay(index: number) {
         break;
       }
 }
+
+
+function getHourWeatherCode(hour : number){
+  return Number(data.hourly.weather_code[hour]);
+}
+
 </script>
 
 <style scoped>
