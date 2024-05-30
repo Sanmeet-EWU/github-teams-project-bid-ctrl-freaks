@@ -3,8 +3,15 @@
     <ion-header class="ion-no-border" mode="ios">
       <ion-toolbar class="ion-padding-start ion-padding-end">
         <ion-title>Weather</ion-title>
+        <span slot="start">
+          <ion-button fill="clear" size="small">
+                <ion-icon class="iconnoti" :icon="notificationsSharp" />
+          </ion-button>
+        </span>
         <span slot="end">
-          <ion-icon :icon="searchSharp" />
+          <ion-button fill="clear" size="small" >
+                <ion-icon class="iconnoti" :icon="searchSharp" />
+          </ion-button>
         </span>
       </ion-toolbar>
     </ion-header>
@@ -54,13 +61,14 @@
 </template>
 
 <script setup lang="ts">
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonIcon, IonCard } from '@ionic/vue';
-import { searchSharp } from 'ionicons/icons';
-import { ref } from 'vue' //Imported this
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonIcon, IonCard, IonButton, IonBadge } from '@ionic/vue';
+import { searchSharp, notificationsSharp } from 'ionicons/icons';
+import { ref, onMounted } from 'vue' //Imported this
 import datas from './forecast.json'
 import MainWeather from '@/components/MainWeather.vue'
 import InfoTab from '@/components/InfoTab.vue'
-import { onMounted } from 'vue';
+
+
 
 /*onMounted(() => {
   //set the defualt color to white
@@ -179,4 +187,9 @@ h6 {
   display: block;
   margin: 0 auto;
 }
+
+.iconnoti {
+    color: purple; /* may need to change color depend on setting later this is placeholder */
+}
+
 </style>
