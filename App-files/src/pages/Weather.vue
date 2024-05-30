@@ -4,14 +4,10 @@
       <ion-toolbar class="ion-padding-start ion-padding-end">
         <ion-title>Weather</ion-title>
         <span slot="start">
-          <ion-button fill="clear" size="small">
-                <ion-icon class="iconnoti" :icon="notificationsSharp" />
-          </ion-button>
+          <NotificationButton />
         </span>
         <span slot="end">
-          <ion-button fill="clear" size="small" >
-                <ion-icon class="iconnoti" :icon="searchSharp" />
-          </ion-button>
+          <SearchButton />
         </span>
       </ion-toolbar>
     </ion-header>
@@ -67,6 +63,8 @@ import { ref, onMounted } from 'vue' //Imported this
 import datas from './forecast.json'
 import MainWeather from '@/components/MainWeather.vue'
 import InfoTab from '@/components/InfoTab.vue'
+import NotificationButton from '@/components/NotificationButton.vue';
+import SearchButton from '@/components/SearchButton.vue';
 
 
 
@@ -188,8 +186,5 @@ h6 {
   margin: 0 auto;
 }
 
-.iconnoti {
-    color: purple; /* may need to change color depend on setting later this is placeholder */
-}
 
 </style>
