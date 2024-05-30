@@ -58,7 +58,6 @@
 
 <script setup lang="ts">
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonIcon, IonCard, IonButton, IonBadge } from '@ionic/vue';
-import { searchSharp, notificationsSharp } from 'ionicons/icons';
 import { ref, onMounted } from 'vue' //Imported this
 import datas from './forecast.json'
 import MainWeather from '@/components/MainWeather.vue'
@@ -68,10 +67,12 @@ import SearchButton from '@/components/SearchButton.vue';
 
 
 
-/*onMounted(() => {
+
+
+onMounted(() => {
   //set the defualt color to white
 });
-*/
+
 
 const data = datas  //this import data directly from json files and use it
 
