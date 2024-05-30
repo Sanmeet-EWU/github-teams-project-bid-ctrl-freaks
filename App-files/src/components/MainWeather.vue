@@ -1,46 +1,20 @@
 <template>
 <h3 class="location">{{ City }}</h3>
       <div class="weather-icon">
-        <img :src="weatherIcon" alt="Weather icon">
-      </div>
-      <h2 class="weather">{{weather}}</h2>
+        <img :src=weatherIcon>
+        <h3>{{weatherIcon}}</h3>
+      </div>c
       <h1 class="temperature">{{temperature}}</h1>
 </template>
 
 <script setup lang="ts">
-import CloudyDay from '../images/animated_icon/cloudy-day-3.svg'
-import CloudyNight from '../images/animated_icon/cloudy-night-3.svg'
-import Rainy from '../images/animated_icon/rainy-6.svg'
-import Snowy from '../images/animated_icon/snowy-6.svg'
-import Sunny from '../images/animated_icon/day.svg'
-import Thunderstorm from '../images/animated_icon/thunder.svg'
 import { computed } from 'vue'
 
-const props = defineProps<{
-  City: string;
-  weather: string;
-  temperature: string;
-}>();
-
-const weatherIcon = computed(() => {
-  switch (props.weather) {
-    case 'CloudyDay':
-      return CloudyDay
-    case 'CloudyNight':
-      return CloudyNight
-    case 'Rainy':
-      return Rainy
-    case 'Snowy':
-      return Snowy
-    case 'Sunny':
-      return Sunny
-    case 'Thunderstorm':
-      return Thunderstorm
-    default:
-      return Sunny
-  }
-})
-
+const props = defineProps({
+  City: String,
+  temperature: String,
+  weatherIcon: String
+}) 
 
 </script>
 
@@ -85,4 +59,4 @@ h3 {
   margin-top: -0.5rem;
 }
 
-</style>
+</style>a
