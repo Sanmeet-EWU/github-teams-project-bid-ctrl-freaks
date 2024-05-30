@@ -65,12 +65,39 @@ import InfoTab from '@/components/InfoTab.vue'
 import NotificationButton from '@/components/NotificationButton.vue';
 import SearchButton from '@/components/SearchButton.vue';
 
+import { LocalNotifications } from '@capacitor/local-notifications';
 
+function requestLocalNotificationPermission() {
+  LocalNotifications.requestPermissions().then((result) => {
+    if (result.display === 'granted') {
+      scheduleNotification(); //Test notification
+    }
+  }).catch((error) => {
+    console.error('Error requesting local notification permission:', error);
+  });
+}
 
+//dummy notification to test
+function scheduleNotification() {
+  LocalNotifications.schedule({
+    notifications: [
+      {
+        title: 'Weather App',
+        body: 'Check the weather!',
+        id: 1,
+        schedule: { at: new Date(Date.now() + 5000) }, // 5 seconds from now
+        actionTypeId: '',
+        extra: null
+      }
+    ]
+  }).catch((error) => {
+    console.error('Error scheduling local notification:', error);
+  });
+}
 
 
 onMounted(() => {
-  //set the defualt color to white
+  requestLocalNotificationPermission();
 });
 
 
