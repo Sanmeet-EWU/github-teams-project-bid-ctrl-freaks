@@ -16,9 +16,9 @@
 
 <script setup lang="ts">
 import { IonPage, IonHeader, IonToolbar, IonTitle } from '@ionic/vue';
-import { Geolocation } from '@capacitor/geolocation'; // Import Geolocation from Capacitor
+import { Geolocation } from '@capacitor/geolocation'; //need to run command npm install @capacitor/geolocation
 import { ref, onMounted } from 'vue'; // Import ref and onMounted from Vue
-import axios from 'axios'; // Import axios for HTTP requests
+import axios from 'axios'; // Run command "npm install axios" to install Axios for this to work if it doesnt work
 
 const lat = ref<number | null>(null);
 const long = ref<number | null>(null);
@@ -36,7 +36,7 @@ const printCurrentPosition = async () => {
   }
 };
 
-const fetchCityAndState = async (latitude, longitude) => {
+const fetchCityAndState = async (latitude: any, longitude: any) => { //need type for it to work
   try {
     const response = await axios.get('https://nominatim.openstreetmap.org/reverse', {
       params: {
