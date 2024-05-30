@@ -38,10 +38,6 @@
             <ion-select-option value="fahrenheit">Fahrenheit</ion-select-option>
           </ion-select>
         </ion-item>
-        <ion-iten class="temp">
-          <ion-button slot="end" fill="outline">Login</ion-button>
-          <ion-button slot="end" fill="outline">Sign Up</ion-button>
-        </ion-iten>
       </ion-list>
     </ion-content>
     
@@ -49,7 +45,7 @@
 </template>
 
 <script setup lang="ts">
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonButton } from '@ionic/vue';
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonButton, IonContent, IonSelect, IonItem, IonList, IonSelectOption, IonLabel, IonToggle } from '@ionic/vue';
 import type { ToggleCustomEvent } from '@ionic/vue';
   import { ref } from 'vue';
 
