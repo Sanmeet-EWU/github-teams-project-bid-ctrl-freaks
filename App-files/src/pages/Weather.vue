@@ -22,6 +22,10 @@
         <InfoTab title="Visibility" value="10 mi" />
       </div>
 
+      <ion-button @click="toggleFavorite('Spokane,WA')">
+        {{ isFavorite('Spokane,WA') ? 'Remove from Favorites' : 'Add to Favorites' }}
+      </ion-button>
+
       <div class="hourly">
         <h6 class="ion-padding-start">Today's Forecast:</h6>
         <div class="infoTab ion-padding">
@@ -52,32 +56,42 @@
           </ion-card>
         </div>
       </div>
+
+      <div class="favorites">
+        <h6 class="ion-padding-start">Favorite Cities:</h6>
+        <div class="infoTab ion-padding">
+          <ion-card class="ion-padding" v-for="city in favorites" :key="city">
+            <h4>{{ city }}</h4>
+            <ion-button @click="toggleFavorite(city)">
+              Remove
+            </ion-button>
+          </ion-card>
+        </div>
+      </div>
     </ion-content>
   </ion-page>
 </template>
 
 <script setup lang="ts">
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonIcon, IonCard, IonButton, IonBadge } from '@ionic/vue';
-import { ref, onMounted } from 'vue' //Imported this
-import datas from './forecast.json'
-import MainWeather from '@/components/MainWeather.vue'
-import InfoTab from '@/components/InfoTab.vue'
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonButton } from '@ionic/vue';
+import { ref, onMounted } from 'vue';
+import datas from './forecast.json';
+import MainWeather from '@/components/MainWeather.vue';
+import InfoTab from '@/components/InfoTab.vue';
 import NotificationButton from '@/components/NotificationButton.vue';
 import SearchButton from '@/components/SearchButton.vue';
-
 import { LocalNotifications } from '@capacitor/local-notifications';
 
 function requestLocalNotificationPermission() {
   LocalNotifications.requestPermissions().then((result) => {
     if (result.display === 'granted') {
-      scheduleNotification(); //Test notification
+      scheduleNotification();
     }
   }).catch((error) => {
     console.error('Error requesting local notification permission:', error);
   });
 }
 
-//dummy notification to test
 function scheduleNotification() {
   LocalNotifications.schedule({
     notifications: [
@@ -85,7 +99,7 @@ function scheduleNotification() {
         title: 'Weather App',
         body: 'Check the weather!',
         id: 1,
-        schedule: { at: new Date(Date.now() + 5000) }, // 5 seconds from now
+        schedule: { at: new Date(Date.now() + 5000) },
         actionTypeId: '',
         extra: null
       }
@@ -95,88 +109,57 @@ function scheduleNotification() {
   });
 }
 
-
 onMounted(() => {
   requestLocalNotificationPermission();
 });
 
+const data = datas;
 
-const data = datas  //this import data directly from json files and use it
-
-
-// Stores reference to the hourly temperature array that is iterated through in the template
 const temp = ref(data.hourly.temperature_2m);
+const hightemps = ref(data.daily.temperature_2m_max);
+const mintemps = ref(data.daily.temperature_2m_min);
+const favorites = ref<string[]>([]);
 
-// Formats hour time based on the index
-function formatHour(index : number) {
+function formatHour(index: number) {
   const hour = index % 12 === 0 ? 12 : index % 12;
   const ampm = index < 12 ? 'AM' : 'PM';
   return `${hour}:00 ${ampm}`;
 }
 
-
-// Stores reference to the daily high temperature array that is iterated through in the template
-const hightemps = ref(data.daily.temperature_2m_max);
-
-// Stores reference to the daily min temperature array that is iterated through in the template
-const mintemps = ref(data.daily.temperature_2m_min);
-
-// Formats hour time based on the index
 const date = new Date();
 function getDay(index: number) {
   const day = date.getDay();
-  const actualValue = (day+index) % 7;
-  switch (actualValue) {
-    case 0:
-        return "Sunday";
-        break;
-    case 1:
-        return "Monday";
-        break;
-    case 2:
-        return "Tuesday";
-        break;
-    case 3:
-        return "Wednesday";
-        break;
-    case 4:
-        return "Thursday";
-        break;
-    case 5:
-         return "Friday";
-        break;
-    case 6:
-        return "Saturday";
-        break;
-    default:
-        console.log("No such day exists!");
-        break;
-      }
+  const actualValue = (day + index) % 7;
+  const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  return daysOfWeek[actualValue];
 }
 
+function toggleFavorite(city: string) {
+  const index = favorites.value.indexOf(city);
+  if (index === -1) {
+    favorites.value.push(city);
+  } else {
+    favorites.value.splice(index, 1);
+  }
+}
 
-function getHourWeatherCode(hour : number){
+function isFavorite(city: string): boolean {
+  return favorites.value.includes(city);
+}
+
+function getHourWeatherCode(hour: number) {
   return Number(data.hourly.weather_code[hour]);
 }
-
 </script>
 
 <style scoped>
 ion-content {
   --background: url('../images/blur-background.png') no-repeat center center / cover;
-  --background-color: none;
-  --background-image: none;
-  --background-position: none;
-  --background-size: none;
-  --background-repeat: none;
-  --background-attachment: none;
-  --background-blend-mode: none;
 }
 
 .infoTab {
   white-space: nowrap;
   overflow-x: auto;
-
 }
 
 ion-card {
@@ -220,5 +203,7 @@ h6 {
   margin: 0 auto;
 }
 
-
+.favorites {
+  margin-top: 2rem;
+}
 </style>
