@@ -33,7 +33,7 @@
             <!--Iterates through array of 24 hourly values, makes card for each one-->
             <h4>{{ formatHour(index) }}</h4>
             <!--Calls formatHour function in script based on index to determine if time is AM or PM and print time-->
-            <img class="cardimg" src="../images/sunny.png" />
+            <GetIcon :weatherCode="getHourWeatherCode(index)" />
             <h3>{{ Math.round(temp) }}°F</h3> <!--Prints rounded temperature variable from script-->
           </ion-card>
         </div>
@@ -50,7 +50,7 @@
             <h3>High:</h3>
             <h3>{{Math.round(hightemps) }}°F</h3> <!--Prints rounded temperature variable from script-->
             <!--Calls formatHour function in script based on index to determine if time is AM or PM and print time-->
-            <img class="cardimg" src="../images/sunny.png" />
+            <GetIcon :weatherCode="getDailyWeatherCode(index)" />
             <h3>Low:</h3>
             <h3>{{Math.round(mintemps[index])}}°F</h3> <!--Prints rounded temperature variable from script-->
           </ion-card>
@@ -81,6 +81,7 @@ import InfoTab from '@/components/InfoTab.vue';
 import NotificationButton from '@/components/NotificationButton.vue';
 import SearchButton from '@/components/SearchButton.vue';
 import { LocalNotifications } from '@capacitor/local-notifications';
+import GetIcon from "@/components/GetIcon.vue"; 
 
 function requestLocalNotificationPermission() {
   LocalNotifications.requestPermissions().then((result) => {
@@ -150,6 +151,11 @@ function isFavorite(city: string): boolean {
 function getHourWeatherCode(hour: number) {
   return Number(data.hourly.weather_code[hour]);
 }
+
+function getDailyWeatherCode(day: number) {
+  return Number(data.daily.weather_code[day]);
+}
+
 </script>
 
 <style scoped>
