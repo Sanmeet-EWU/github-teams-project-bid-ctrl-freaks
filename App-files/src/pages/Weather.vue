@@ -29,7 +29,7 @@
       <div class="hourly">
         <h6 class="ion-padding-start">Today's Forecast:</h6>
         <div class="infoTab ion-padding">
-          <ion-card class="ion-padding" v-for="(temp, index) in temp" :key="index">
+          <ion-card class="ion-padding" @click="() => expand(index)" v-for="(temp, index) in adjustedTemp" :key="index">
             <!--Iterates through array of 24 hourly values, makes card for each one-->
             <h4>{{ formatHour(index) }}</h4>
             <!--Calls formatHour function in script based on index to determine if time is AM or PM and print time-->
@@ -68,14 +68,31 @@
           </ion-card>
         </div>
       </div>
+
+      <teleport to="body">
+        <div v-if="expandedIndex !== null" class="overlay" @click.self="collapse">
+          <ion-card class="expanded-content">
+            <ion-card-header>
+              <ion-card-title>More Info</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <p>This is the expanded content for hour: {{ formatHour(expandedIndex) }}. Click outside to collapse.</p>
+            </ion-card-content>
+          </ion-card>
+        </div>
+      </teleport>
+      
     </ion-content>
   </ion-page>
 </template>
 
 <script setup lang="ts">
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonButton } from '@ionic/vue';
-import { ref, onMounted } from 'vue';
-import datas from './forecast.json';
+import { ref, onMounted, computed } from 'vue';
+
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from '@/main';
+  
 import MainWeather from '@/components/MainWeather.vue';
 import InfoTab from '@/components/InfoTab.vue';
 import NotificationButton from '@/components/NotificationButton.vue';
@@ -114,17 +131,28 @@ onMounted(() => {
   requestLocalNotificationPermission();
 });
 
-const data = datas;
+const temp = ref<number[]>([]);
 
-const temp = ref(data.hourly.temperature_2m);
-const hightemps = ref(data.daily.temperature_2m_max);
-const mintemps = ref(data.daily.temperature_2m_min);
+const expandedIndex = ref<number | null>(null);
+
+const currentHour = new Date().getHours();
+
+const adjustedTemp = computed(() => {
+  return temp.value.slice(currentHour, 24);
+});
+  
+// Stores reference to the daily high temperature array that is iterated through in the template
+const hightemps = [2, 4, 7, 1, 1, 1, 1]
+// Stores reference to the daily min temperature array that is iterated through in the template
+const mintemps = [2, 4, 5, 2, 3, 4, 5]
+  
 const favorites = ref<string[]>([]);
 
 function formatHour(index: number) {
-  const hour = index % 12 === 0 ? 12 : index % 12;
-  const ampm = index < 12 ? 'AM' : 'PM';
-  return `${hour}:00 ${ampm}`;
+  const hour = (currentHour + index) % 24;
+  const displayHour = hour % 12 === 0 ? 12 : hour % 12;
+  const ampm = hour < 12 ? 'AM' : 'PM';
+  return `${displayHour}:00 ${ampm}`;
 }
 
 const date = new Date();
@@ -156,6 +184,30 @@ function getDailyWeatherCode(day: number) {
   return Number(data.daily.weather_code[day]);
 }
 
+function getHourWeatherCode(hour: number) {
+  return Number(data.hourly.weather_code[hour]);
+}
+
+function expand(index: number) {
+  expandedIndex.value = index;
+}
+
+function collapse() {
+  expandedIndex.value = null;
+}
+
+async function fetchWeatherData() {
+  const docRef = doc(db, 'locations', 'Spokane');
+  const docSnap = await getDoc(docRef);
+  if (docSnap.exists()) {
+    const data = docSnap.data();
+    temp.value = data.forecast.hourly.temperature_2m;
+  }
+}
+
+onMounted(() => {
+  fetchWeatherData();
+});
 </script>
 
 <style scoped>
@@ -211,5 +263,43 @@ h6 {
 
 .favorites {
   margin-top: 2rem;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.expanded-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  width: 70%;
+  height: 50%;
+  max-width: 800px;
+  max-height: 400px;
+  overflow-y: auto;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.expanded-content p {
+  margin: 0;
+  padding: 0;
+  font-size: 1rem;
+  color: #333;
 }
 </style>
