@@ -184,10 +184,6 @@ function getDailyWeatherCode(day: number) {
   return Number(data.daily.weather_code[day]);
 }
 
-function getHourWeatherCode(hour: number) {
-  return Number(data.hourly.weather_code[hour]);
-}
-
 function expand(index: number) {
   expandedIndex.value = index;
 }
