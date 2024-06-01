@@ -92,6 +92,7 @@ import { ref, onMounted, computed } from 'vue';
 
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '@/main';
+import datas from './forecast.json';
   
 import MainWeather from '@/components/MainWeather.vue';
 import InfoTab from '@/components/InfoTab.vue';
@@ -141,10 +142,9 @@ const adjustedTemp = computed(() => {
   return temp.value.slice(currentHour, 24);
 });
   
-// Stores reference to the daily high temperature array that is iterated through in the template
-const hightemps = [2, 4, 7, 1, 1, 1, 1]
-// Stores reference to the daily min temperature array that is iterated through in the template
-const mintemps = [2, 4, 5, 2, 3, 4, 5]
+const data = datas;
+const hightemps = ref(data.daily.temperature_2m_max);
+const mintemps = ref(data.daily.temperature_2m_min);
   
 const favorites = ref<string[]>([]);
 
