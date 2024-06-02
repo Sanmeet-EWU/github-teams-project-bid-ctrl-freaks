@@ -13,7 +13,7 @@
     </ion-header>
 
     <ion-content>
-      <MainWeather :City=currentVisual temperature="25°F" :weatherCode="getHourWeatherCode(0)" />
+      <MainWeather :City=currentVisual :temperature=String(getTempAtHour(currentHour)) :weatherCode="getHourWeatherCode(0)" />
 
       <div class="infoTab ion-padding">
         <InfoTab title="Humidity" value="50%" />
@@ -136,7 +136,8 @@ const temp = ref<number[]>([]);
 
 const expandedIndex = ref<number | null>(null);
 
-const currentHour = new Date().getHours();
+const date = new Date();
+const currentHour = date.getHours();
 
 const currentCity = "Spokane";
 const currentState = "WA" ;
@@ -161,7 +162,6 @@ function formatHour(index: number) {
   return `${displayHour}:00 ${ampm}`;
 }
 
-const date = new Date();
 function getDay(index: number) {
   const day = date.getDay();
   const actualValue = (day + index) % 7;
@@ -180,6 +180,9 @@ function toggleFavorite(city: string) {
 
 function isFavorite(city: string): boolean {
   return favorites.value.includes(city);
+}
+function getTempAtHour(hour: number){
+  return Number(data.hourly.temperature_2m[hour]);
 }
 
 function getHourWeatherCode(hour: number) {
