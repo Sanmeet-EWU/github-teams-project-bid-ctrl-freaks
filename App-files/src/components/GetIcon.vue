@@ -5,26 +5,24 @@
 </template>
 
 <script setup lang="ts">
-import Sunny from '../images/animated_icon/sunny.svg';
-import Night from '../images/animated_icon/night.svg';
-import SunnyLightCloud from '../images/animated_icon/light_cloudy_day.svg';
-import SunnyMediumCloud from '../images/animated_icon/medium_cloudy_day.svg';
-import NightLightCloud from '../images/animated_icon/light_cloudy_night.svg';
-import NightMediumCloud from '../images/animated_icon/medium_cloudy_night.svg';
-import Cloudy from '../images/animated_icon/only_cloudy.svg';
-import SunnyLightRain from '../images/animated_icon/sunny_light_rain.svg';
-import LightSunnyLightRain from '../images/animated_icon/lightsun_light_rain.svg';
-import LightRain from '../images/animated_icon/light_rain.svg';
-import MediumRain from '../images/animated_icon/medium_rain.svg';
-import HeavyRain from '../images/animated_icon/heavy_rain.svg';
-import Drizzle from '../images/animated_icon/drizzle.svg';
-import SunnyLightSnow from '../images/animated_icon/sunny_light_snow.svg';
-import LightSunnyLightSnow from '../images/animated_icon/lightsun_light_snow.svg';
-import LightSnow from '../images/animated_icon/light_snow.svg';
-import MediumSnow from '../images/animated_icon/medium_snow.svg';
-import HeavySnow from '../images/animated_icon/heavy_snow.svg';
-import Thunder from '../images/animated_icon/thunder.svg';
-import Foggy from '../images/animated_icon/Foggy.gif';
+import Sunny from '../images/animated_icon/clear-day.svg';
+import Night from '../images/animated_icon/clear-night.svg';
+import SunnyCloud from '../images/animated_icon/cloudy-day.svg';
+import NightCloud from '../images/animated_icon/cloudy-night.svg';
+import DayOvercast from '../images/animated_icon/overcast-day.svg';
+import NightOvercast from '../images/animated_icon/overcast-night.svg';
+import DaySleet from '../images/animated_icon/sleet-day.svg';
+import NightSleet from '../images/animated_icon/sleet-night.svg';
+import DayRain from '../images/animated_icon/rain-day.svg';
+import NightRain from '../images/animated_icon/night-rain.svg';
+import DayDrizzle from '../images/animated_icon/drizzle-day.svg';
+import NightDrizzle from '../images/animated_icon/drizzle-night.svg';
+import DaySnow from '../images/animated_icon/snow-day.svg';
+import NightSnow from '../images/animated_icon/snow-night.svg';
+import DayThunder from '../images/animated_icon/thunder-day.svg';
+import NightThunder from '../images/animated_icon/thunder-night.svg';
+import DayFog from '../images/animated_icon/fog-day.svg';
+import NightFog from '../images/animated_icon/fog-night.svg';
 
 import { computed } from 'vue';
 
@@ -38,36 +36,33 @@ var isDaytime = (props.hourOfDay > 19 || props.hourOfDay < 8);
 
 
 const weatherMap: { [key: number]: string } = {
-  0: isDaytime ? Sunny : Night,
-  1: isDaytime ? Sunny : Night,
-  2: isDaytime ? SunnyLightCloud : NightLightCloud,
-  3: isDaytime ? SunnyMediumCloud : NightMediumCloud,
-  4: Cloudy,
-  5: Foggy,
-  6: Drizzle,
-  45: Foggy,
-  48: Foggy,
-  51: isDaytime ? LightSunnyLightRain : LightRain,
-  56: isDaytime ? LightSunnyLightRain : LightRain,
-  61: isDaytime ? LightSunnyLightRain : LightRain,
-  66: isDaytime ? LightSunnyLightRain : LightRain,
-  80: isDaytime ? LightSunnyLightRain : LightRain,
-  53: isDaytime ? SunnyLightRain : MediumRain,
-  63: isDaytime ? SunnyLightRain : MediumRain,
-  81: isDaytime ? SunnyLightRain : MediumRain,
-  55: Drizzle,
-  65: HeavyRain,
-  67: HeavyRain,
-  82: HeavyRain,
-  71: isDaytime ? LightSunnyLightSnow : LightSnow,
-  73: isDaytime ? LightSunnyLightSnow : MediumSnow,
-  75: HeavySnow,
-  77: isDaytime ? SunnyLightSnow : MediumSnow,
-  85: isDaytime ? LightSunnyLightSnow : LightSnow,
-  86: HeavySnow,
-  95: Thunder,
-  96: Thunder,
-  99: Thunder,
+  0: isDaytime ? Sunny : Night, //clear sky
+  1: isDaytime ? Sunny : Night, // Mainly clear 
+  2: isDaytime ? SunnyCloud : NightCloud, //Partly Cloudy
+  3: isDaytime ? DayOvercast : NightOvercast, // Overcast
+  45: isDaytime ? DayFog: NightFog, //fog
+  48: isDaytime ? DayFog: NightFog, //fog
+  51: isDaytime ? DayDrizzle : NightDrizzle, //drizzle light
+  53: isDaytime ? DayDrizzle : NightDrizzle, //drizzle medium
+  55: isDaytime ? DayDrizzle : NightDrizzle, //drizzle heavy
+  56: isDaytime ? DayDrizzle : NightDrizzle, // light Freezing drizzle
+  61: isDaytime ? DayDrizzle : NightDrizzle, // heavy freezing drizzle
+  63: isDaytime ? DayRain : NightRain, //Moderate rain
+  65: isDaytime ? DayRain: NightRain, //heavy rain
+  66: isDaytime ? DaySleet : NightSleet, //light freezing rain
+  67: isDaytime ? DaySleet : NightSleet, //heavy freezing rain
+  71: isDaytime ? DaySnow : NightSnow, //snow light
+  73: isDaytime ? DaySnow : NightSnow, // snow moderate
+  75: isDaytime ? DaySnow : NightSnow, //snow heavy
+  77: isDaytime ? DaySnow : NightSnow, // Snow grains
+  80: isDaytime ? DayDrizzle : NightDrizzle, //Slight rain show
+  81: isDaytime ? DayRain : NightRain, //medium rain shower
+  82: isDaytime ? DayRain : NightRain, //heavy rain shower
+  85: isDaytime ? DaySnow : NightSnow, // snow shower light
+  86: isDaytime ? DaySnow : NightSnow, //snow shower heavy
+  95: isDaytime ? DayThunder : NightThunder, //thunder
+  96: isDaytime ? DayThunder : NightThunder, //thunder with hail
+  99: isDaytime ? DayThunder : NightThunder, //thunder with heavy hail
 };
 
 const weatherIcon = computed(() => weatherMap[props.weatherCode] || (isDaytime ? Sunny : Night));
