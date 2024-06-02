@@ -13,7 +13,7 @@
     </ion-header>
 
     <ion-content>
-      <MainWeather City="Spokane,WA" temperature="25°F" :weatherCode="getHourWeatherCode" />
+      <MainWeather City="Spokane,WA" temperature="25°F" :weatherCode="getHourWeatherCode(0)" />
 
       <div class="infoTab ion-padding">
         <InfoTab title="Humidity" value="50%" />
@@ -33,7 +33,7 @@
             <!--Iterates through array of 24 hourly values, makes card for each one-->
             <h4>{{ formatHour(index) }}</h4>
             <!--Calls formatHour function in script based on index to determine if time is AM or PM and print time-->
-            <GetIcon :weatherCode="getHourWeatherCode(index)" />
+            <GetIcon :weatherCode="getHourWeatherCode(index)" :hourOfDay = index />
             <h3>{{ Math.round(temp) }}°F</h3> <!--Prints rounded temperature variable from script-->
           </ion-card>
         </div>
@@ -50,7 +50,7 @@
             <h3>High:</h3>
             <h3>{{Math.round(hightemps) }}°F</h3> <!--Prints rounded temperature variable from script-->
             <!--Calls formatHour function in script based on index to determine if time is AM or PM and print time-->
-            <GetIcon :weatherCode="getDailyWeatherCode(index)" />
+            <GetIcon :weatherCode="getDailyWeatherCode(index)" :hourOfDay = "index"/>
             <h3>Low:</h3>
             <h3>{{Math.round(mintemps[index])}}°F</h3> <!--Prints rounded temperature variable from script-->
           </ion-card>

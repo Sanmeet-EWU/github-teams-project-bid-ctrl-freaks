@@ -30,12 +30,15 @@ import { computed } from 'vue';
 
 const props = defineProps<{
   weatherCode: number;
+  hourOfDay: number;
 }>();
 
 const date = new Date();
-const isDaytime = date.getHours() < 16;
+var isDaytime = (props.hourOfDay < 16 || props.hourOfDay > 7);
+
 
 const weatherMap: { [key: number]: string } = {
+  0: isDaytime ? Sunny : Night,
   1: isDaytime ? Sunny : Night,
   2: isDaytime ? SunnyLightCloud : NightLightCloud,
   3: isDaytime ? SunnyMediumCloud : NightMediumCloud,
