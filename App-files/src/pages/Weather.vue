@@ -13,7 +13,7 @@
     </ion-header>
 
     <ion-content>
-      <MainWeather City="Spokane,WA" temperature="25°F" :weatherCode="getHourWeatherCode(0)" />
+      <MainWeather :City=currentVisual temperature="25°F" :weatherCode="getHourWeatherCode(0)" />
 
       <div class="infoTab ion-padding">
         <InfoTab title="Humidity" value="50%" />
@@ -138,6 +138,12 @@ const expandedIndex = ref<number | null>(null);
 
 const currentHour = new Date().getHours();
 
+const currentCity = "Spokane";
+const currentState = "WA" ;
+const currentVisual = computed(() =>{
+  return currentCity + ", " + currentState;
+});
+
 const adjustedTemp = computed(() => {
   return temp.value.slice(currentHour, 24);
 });
@@ -193,7 +199,7 @@ function collapse() {
 }
 
 async function fetchWeatherData() {
-  const docRef = doc(db, 'locations', 'Spokane');
+  const docRef = doc(db, 'locations', currentCity);
   const docSnap = await getDoc(docRef);
   if (docSnap.exists()) {
     const data = docSnap.data();
