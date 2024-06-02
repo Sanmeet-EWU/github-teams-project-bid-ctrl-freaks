@@ -34,7 +34,7 @@ const props = defineProps<{
 }>();
 
 const date = new Date();
-var isDaytime = (props.hourOfDay < 16 || props.hourOfDay > 7);
+var isDaytime = (props.hourOfDay > 19 || props.hourOfDay < 8);
 
 
 const weatherMap: { [key: number]: string } = {
