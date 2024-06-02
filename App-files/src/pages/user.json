@@ -1,0 +1,50 @@
+{
+  "User": {
+    "tempType": "celcius",
+    "darkModePref": "dark",
+    "Favorites": [
+      {
+        "cityName": "Spokane",
+        "stateName": "WA"
+      },
+      {
+        "cityName": "Spokane",
+        "stateName": "WA"
+      },
+      {
+        "cityName": "Spokane",
+        "stateName": "WA"
+      },
+      {
+        "cityName": "Spokane",
+        "stateName": "WA"
+      },
+      {
+        "cityName": "Spokane",
+        "stateName": "WA"
+      }
+    ],
+    "History": [
+      {
+        "cityName": "Spokane",
+        "stateName": "WA"
+      },
+      {
+        "cityName": "Spokane",
+        "stateName": "WA"
+      },
+      {
+        "cityName": "Spokane",
+        "stateName": "WA"
+      },
+      {
+        "cityName": "Spokane",
+        "stateName": "WA"
+      },
+      {
+        "cityName": "Spokane",
+        "stateName": "WA"
+      }
+    ]
+  }
+}

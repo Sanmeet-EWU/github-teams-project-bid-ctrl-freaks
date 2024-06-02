@@ -8,6 +8,7 @@
     <ion-content>
       <ion-list>
         <ion-item>
+  
           <ion-label>Dark Mode</ion-label>
            <!--button toggle where it checks to see if dark is mode is on or not-->
           <ion-toggle :checked="paletteToggle" @ionChange="toggleChange($event)" 
@@ -24,7 +25,7 @@
         </ion-item>
         <ion-item>
           <ion-label>Location</ion-label>
-          <ion-select slot="end" interface="action-sheet" placeholder="Spokane, WA">
+          <ion-select slot="end" interface="action-sheet" placeholder=currentLocation>
             <ion-select-option value="spokane">Spokane, WA</ion-select-option>
             <ion-select-option value="seattle">Seattle, WA</ion-select-option>
             <ion-select-option value="portland">Portland, OR</ion-select-option>
@@ -33,7 +34,7 @@
         </ion-item>
         <ion-item>
           <ion-label>Temperature</ion-label>
-          <ion-select slot="end" interface="action-sheet" placeholder="Fahrenheit">
+          <ion-select slot="end" interface="action-sheet" placeholder= "Select Metric" @ionChange= "handleTempTypeChange($event)">
             <ion-select-option value="celsius">Celsius</ion-select-option>
             <ion-select-option value="fahrenheit">Fahrenheit</ion-select-option>
           </ion-select>
@@ -45,10 +46,10 @@
 </template>
 
 <script setup lang="ts">
+import userData from './user.json';
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonButton, IonContent, IonSelect, IonItem, IonList, IonSelectOption, IonLabel, IonToggle } from '@ionic/vue';
-import type { ToggleCustomEvent } from '@ionic/vue';
-  import { ref } from 'vue';
-
+import type { SelectCustomEvent, ToggleCustomEvent } from '@ionic/vue';
+  import { ref } from 'vue'
   const paletteToggle = ref(false);
 
 // Use matchMedia to check the user preference
@@ -74,6 +75,16 @@ prefersDark.addEventListener('change', (mediaQuery) => initializeDarkPalette(med
 const toggleChange = (ev: ToggleCustomEvent) => {
   toggleDarkPalette(ev.detail.checked);
 };
+
+const handleTempTypeChange = (e: SelectCustomEvent)=>{
+  console.log(e.detail.value);
+  //change json file value to e.detail.value
+  userData.User.tempType = e.detail.value;
+};
+
+
+
+
 </script>
 
 <style scoped>

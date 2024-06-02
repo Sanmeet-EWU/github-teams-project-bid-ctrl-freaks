@@ -13,7 +13,7 @@
     </ion-header>
 
     <ion-content>
-      <MainWeather :City=currentVisual :temperature=String(getTempAtHour(currentHour)) :weatherCode="getHourWeatherCode(0)" />
+      <MainWeather :City=currentVisual :temperature= getFormatedTempValue(data.hourly.temperature_2m[currentHour]) :weatherCode="getHourWeatherCode(0)" />
 
       <div class="infoTab ion-padding">
         <InfoTab title="Humidity" value="50%" />
@@ -29,12 +29,12 @@
       <div class="hourly">
         <h6 class="ion-padding-start">Today's Forecast:</h6>
         <div class="infoTab ion-padding">
-          <ion-card class="ion-padding" @click="() => expand(index)" v-for="(temp, index) in adjustedTemp" :key="index">
+          <ion-card class="ion-padding" @click="() => expand(index)" v-for="(temp, index) in hourlyTemps " :key="index">
             <!--Iterates through array of 24 hourly values, makes card for each one-->
             <h4>{{ formatHour(index) }}</h4>
             <!--Calls formatHour function in script based on index to determine if time is AM or PM and print time-->
             <GetIcon :weatherCode="getHourWeatherCode(index)" :hourOfDay = index />
-            <h3>{{ Math.round(temp) }}°F</h3> <!--Prints rounded temperature variable from script-->
+            <h3>{{getFormatedTempValue(temp)}}</h3> <!--Prints rounded temperature variable from script-->
           </ion-card>
         </div>
       </div>
@@ -48,11 +48,11 @@
             <h4>{{getDay(index)}}</h4>
             
             <h3>High:</h3>
-            <h3>{{Math.round(hightemps) }}°F</h3> <!--Prints rounded temperature variable from script-->
+            <h3>{{getFormatedTempValue(hightemps)}}</h3> <!--Prints rounded temperature variable from script-->
             <!--Calls formatHour function in script based on index to determine if time is AM or PM and print time-->
             <GetIcon :weatherCode="getDailyWeatherCode(index)" :hourOfDay = "index"/>
-            <h3>Low:</h3>
-            <h3>{{Math.round(mintemps[index])}}°F</h3> <!--Prints rounded temperature variable from script-->
+            <h3>Low: </h3>
+            <h3>{{getFormatedTempValue(mintemps[index])}}</h3> <!--Prints rounded temperature variable from script-->
           </ion-card>
         </div>
       </div>
@@ -93,14 +93,14 @@ import { ref, onMounted, computed } from 'vue';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '@/main';
 import datas from './forecast.json';
-  
+
+import userData from './user.json';  
 import MainWeather from '@/components/MainWeather.vue';
 import InfoTab from '@/components/InfoTab.vue';
 import NotificationButton from '@/components/NotificationButton.vue';
 import SearchButton from '@/components/SearchButton.vue';
 import { LocalNotifications } from '@capacitor/local-notifications';
-import GetIcon from "@/components/GetIcon.vue"; 
-
+import GetIcon from "@/components/GetIcon.vue";
 function requestLocalNotificationPermission() {
   LocalNotifications.requestPermissions().then((result) => {
     if (result.display === 'granted') {
@@ -132,8 +132,7 @@ onMounted(() => {
   requestLocalNotificationPermission();
 });
 
-const temp = ref<number[]>([]);
-
+const temp = ref<number[]>([]);//Don't think we need this anymore @lg
 const expandedIndex = ref<number | null>(null);
 
 const date = new Date();
@@ -150,10 +149,23 @@ const adjustedTemp = computed(() => {
 });
   
 const data = datas;
-const hightemps = ref(data.daily.temperature_2m_max);
-const mintemps = ref(data.daily.temperature_2m_min);
+
+const hourlyTemps = data.hourly.temperature_2m.slice(0,24);//reduce hourlyt data to 24 and store it
+const hightemps = ref(data.daily.temperature_2m_max); //weekly high temps
+const mintemps = ref(data.daily.temperature_2m_min); //weekly low temps
   
 const favorites = ref<string[]>([]);
+
+//returns a string including C or F based on user settings
+function getFormatedTempValue(celcius : number){
+  console.log("GetFormated detects: "+userData.User.tempType);
+  if(userData.User.tempType == 'celsius'){
+    return Math.round(celcius)+"°C";
+  }
+  else{
+  return String(Math.round(celcius * 9 / 5) +32)+"°F"; 
+  }
+}
 
 function formatHour(index: number) {
   const hour = (currentHour + index) % 24;
@@ -181,10 +193,6 @@ function toggleFavorite(city: string) {
 function isFavorite(city: string): boolean {
   return favorites.value.includes(city);
 }
-function getTempAtHour(hour: number){
-  return Number(data.hourly.temperature_2m[hour]);
-}
-
 function getHourWeatherCode(hour: number) {
   return Number(data.hourly.weather_code[hour]);
 }
