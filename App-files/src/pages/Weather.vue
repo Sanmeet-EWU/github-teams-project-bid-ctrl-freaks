@@ -13,7 +13,7 @@
     </ion-header>
 
     <ion-content>
-      <MainWeather :City=currentVisual :temperature= getFormatedTempValue(data.hourly.temperature_2m[currentHour]) :weatherCode="getHourWeatherCode(0)" />
+      <MainWeather :City=currentVisual :temperature= getFormatedTempValue(data.hourly.temperature_2m[0]) :weatherCode="getHourWeatherCode(0)" />
 
       <div class="infoTab ion-padding">
         <InfoTab title="Humidity" value="50%" />
