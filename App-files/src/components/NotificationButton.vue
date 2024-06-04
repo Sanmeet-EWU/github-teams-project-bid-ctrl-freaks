@@ -75,7 +75,7 @@ const veryHotTemp = 30;//30 c = 86 f
 
 function veryHotToday(){
     for(var temp of props.hourlyTemps)if(temp >= veryHotTemp) return true;
-    return true;
+    return false;
 }
 
 const severeHotTemp = 38;//38 c = 100.4 f
