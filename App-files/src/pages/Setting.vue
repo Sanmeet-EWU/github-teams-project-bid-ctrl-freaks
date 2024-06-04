@@ -8,10 +8,12 @@
     <ion-content>
       <ion-list>
         <ion-item>
-
+  
           <ion-label>Dark Mode</ion-label>
-          <!--button toggle where it checks to see if dark is mode is on or not-->
-          <ion-toggle :checked="paletteToggle" @ionChange="toggleChange($event)"></ion-toggle>
+           <!--button toggle where it checks to see if dark is mode is on or not-->
+          <ion-toggle :checked="paletteToggle" @ionChange="toggleChange($event)" 
+          ></ion-toggle
+        >
         </ion-item>
         <ion-item>
           <ion-label>Notifications</ion-label>
@@ -19,7 +21,9 @@
         </ion-item>
         <ion-item>
           <ion-label>GPS</ion-label>
-          <ion-toggle slot="end"></ion-toggle>
+          <ion-toggle slot="end" interface="action-sheet" placeholder="gps tracking on" @ionchange="handleGPSChange($event)">
+            <ion-toggle value="true"></ion-toggle>
+            </ion-toggle>
         </ion-item>
         <ion-item>
           <ion-label>Location</ion-label>
@@ -32,7 +36,7 @@
         </ion-item>
         <ion-item>
           <ion-label>Temperature</ion-label>
-          <ion-select slot="end" interface="action-sheet" placeholder="Select Metric"
+          <ion-select slot="end" interface="action-sheet" placeholder= "Select Metric" @ionChange= "handleTempTypeChange($event)">
             @ionChange="handleTempTypeChange($event)">
             <ion-select-option value="celsius">Celsius</ion-select-option>
             <ion-select-option value="fahrenheit">Fahrenheit</ion-select-option>
@@ -40,7 +44,7 @@
         </ion-item>
       </ion-list>
     </ion-content>
-
+    
   </ion-page>
 </template>
 
@@ -48,9 +52,8 @@
 import userData from './user.json';
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonButton, IonContent, IonSelect, IonItem, IonList, IonSelectOption, IonLabel, IonToggle } from '@ionic/vue';
 import type { SelectCustomEvent, ToggleCustomEvent } from '@ionic/vue';
-import { ref } from 'vue'
-
-const paletteToggle = ref(false);
+import { defineComponent, ref } from 'vue';
+  const paletteToggle = ref(false);
 
 // Use matchMedia to check the user preference
 const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
@@ -76,17 +79,35 @@ const toggleChange = (ev: ToggleCustomEvent) => {
   toggleDarkPalette(ev.detail.checked);
 };
 
-const handleTempTypeChange = (e: SelectCustomEvent) => {
+const handleTempTypeChange = (e: SelectCustomEvent)=>{
+  console.log(e.detail.value);
   //change json file value to e.detail.value
   userData.User.tempType = e.detail.value;
 };
+
+const handleGPSChange = (e: ToggleCustomEvent) =>{
+console.log(e.detail.value);
+userData.User.gpsOn = e.detail.value;
+};
+
+function gpsOn(gps : boolean){
+  if(userData.User.gpsOn == true){
+    return true;
+  }
+  else{
+  return false; 
+  }
+}
+
+
+
 
 </script>
 
 <style scoped>
 .temp {
-  display: flex;
-  justify-content: center;
-  margin-top: 5rem;
-}
+    display: flex;
+    justify-content: center;
+    margin-top: 5rem;
+  }
 </style>
