@@ -58,7 +58,7 @@
       </div>
 
       <div class="favorites">
-        <h6 class="ion-padding-start">Favorite Cities:</h6>
+        <h6 class="ion-padding-start"></h6>
         <div class="infoTab ion-padding">
           <ion-card class="ion-padding" v-for="city in favorites" :key="city">
             <h4>{{ city }}</h4>
