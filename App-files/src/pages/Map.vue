@@ -214,7 +214,7 @@ ion-card {
 }
 h4 {
   color: red;
-  font-size: 1rem;
+  font-size: 1.5rem;
   font-weight: bold;
   margin: 0px;
   margin-bottom: 10px;
