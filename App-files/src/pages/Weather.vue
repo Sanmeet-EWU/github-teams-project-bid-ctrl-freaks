@@ -4,7 +4,7 @@
       <ion-toolbar class="ion-padding-start ion-padding-end">
         <ion-title>Weather</ion-title>
         <span slot="start">
-          <NotificationButton />
+          <NotificationButton :hourlyCodes = myhourlyCodes :hourlyTemps =hourlyTemps />
         </span>
         <span slot="end">
           <SearchButton />
@@ -149,8 +149,8 @@ const adjustedTemp = computed(() => {
 });
   
 const data = datas;
-
-const hourlyTemps = data.hourly.temperature_2m.slice(0,24);//reduce hourlyt data to 24 and store it
+const myhourlyCodes : number[]= data.hourly.weather_code.slice(0,24);//reduce hourly code data
+const hourlyTemps : number[]= data.hourly.temperature_2m.slice(0,24);//reduce hourlyt data to 24 and store it
 const hightemps = ref(data.daily.temperature_2m_max); //weekly high temps
 const mintemps = ref(data.daily.temperature_2m_min); //weekly low temps
   
@@ -158,7 +158,6 @@ const favorites = ref<string[]>([]);
 
 //returns a string including C or F based on user settings
 function getFormatedTempValue(celcius : number){
-  console.log("GetFormated detects: "+userData.User.tempType);
   if(userData.User.tempType == 'celsius'){
     return Math.round(celcius)+"°C";
   }
