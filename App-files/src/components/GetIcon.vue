@@ -31,8 +31,7 @@ const props = defineProps<{
   hourOfDay: number;
 }>();
 
-const date = new Date();
-var isDaytime = (props.hourOfDay > 19 || props.hourOfDay < 8);
+const isDaytime = (props.hourOfDay > 6 && props.hourOfDay < 19);
 
 
 const weatherMap: { [key: number]: string } = {
@@ -40,15 +39,15 @@ const weatherMap: { [key: number]: string } = {
   1: isDaytime ? Sunny : Night, // Mainly clear 
   2: isDaytime ? SunnyCloud : NightCloud, //Partly Cloudy
   3: isDaytime ? DayOvercast : NightOvercast, // Overcast
-  45: isDaytime ? DayFog: NightFog, //fog
-  48: isDaytime ? DayFog: NightFog, //fog
+  45: isDaytime ? DayFog : NightFog, //fog
+  48: isDaytime ? DayFog : NightFog, //fog
   51: isDaytime ? DayDrizzle : NightDrizzle, //drizzle light
   53: isDaytime ? DayDrizzle : NightDrizzle, //drizzle medium
   55: isDaytime ? DayDrizzle : NightDrizzle, //drizzle heavy
   56: isDaytime ? DayDrizzle : NightDrizzle, // light Freezing drizzle
   61: isDaytime ? DayDrizzle : NightDrizzle, // heavy freezing drizzle
   63: isDaytime ? DayRain : NightRain, //Moderate rain
-  65: isDaytime ? DayRain: NightRain, //heavy rain
+  65: isDaytime ? DayRain : NightRain, //heavy rain
   66: isDaytime ? DaySleet : NightSleet, //light freezing rain
   67: isDaytime ? DaySleet : NightSleet, //heavy freezing rain
   71: isDaytime ? DaySnow : NightSnow, //snow light
@@ -74,5 +73,4 @@ const weatherIcon = computed(() => weatherMap[props.weatherCode] || (isDaytime ?
   justify-content: center;
   margin: 0px;
 }
-
 </style>

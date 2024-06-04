@@ -1,34 +1,23 @@
 <template>
-  <h3 class="location">{{ City }}</h3>
+  <h3 class="location">{{ city }}</h3>
   <div class="weather-icon">
     <GetIcon :weatherCode="weatherData.icon" :hourOfDay="date.getHours()" />
   </div>
   <h2 class="weather">{{ weatherData.name }}</h2>
   <h1 class="temperature">{{ temperature }}</h1>
 
-  <div>
-    <input v-model="newLocation" placeholder="Enter new location" /> <br />
-    <button @click="handleAddOrUpdateLocation">Add or Update Location</button>
-  </div>
 </template>
 
 <script setup lang="ts">
 import GetIcon from './GetIcon.vue';
 
-
-import { ref, computed } from 'vue'
-
-import { doc, getDoc, setDoc } from 'firebase/firestore';
-import { db } from '@/main';
+import { computed } from 'vue'
 
 const props = defineProps<{
-  City: string;
+  city: string;
   temperature: string;
   weatherCode: number;
 }>();
-
-//get hour of day to output day or night weather icon
-const date = new Date();
 
 const weatherMap: { [key: number]: () => { icon: number; name: string; }; default: () => { icon: number; name: string; }; } = {
   1: () => ({ icon: 1, name: "Clear Sky" }),
@@ -72,80 +61,12 @@ const weatherMap: { [key: number]: () => { icon: number; name: string; }; defaul
   default: () => ({ icon: 1, name: "Clear Sky" }),
 }
 
-
-// Returns the weather data based on the weather code
 const weatherData = computed(() => {
   const weatherItem = weatherMap[props.weatherCode] || weatherMap.default;
   return typeof weatherItem === 'function' ? weatherItem() : weatherItem;
 });
 
-
-
-
-
-const newLocation = ref('');
-
-async function fetchForecast(location: string) {
-  const response = await fetch('https://api.open-meteo.com/v1/forecast?latitude=47.6597&longitude=-117.4291&hourly=temperature_2m&timezone=auto&temperature_unit=fahrenheit')
-
-  return await response.json();
-}
-
-async function addOrUpdateLocation(location: string) {
-  if (!location) {
-    console.error('Location name is required');
-    return;
-  }
-
-  try {
-    const locationRef = doc(db, 'locations', location);
-    const locationDoc = await getDoc(locationRef);
-
-    if (locationDoc.exists()) {
-      const data = locationDoc.data();
-      const lastUpdated = new Date(data?.lastUpdated);
-      const oneHourAgo = new Date(Date.now() - 3600 * 1000);
-
-      if (lastUpdated < oneHourAgo) {
-
-        console.log(`Updating forecast for ${location}`);
-        const forecastData = await fetchForecast(location);
-        await setDoc(locationRef, {
-          name: location,
-          forecast: forecastData,
-          lastUpdated: new Date().toISOString()
-        });
-        console.log(`Forecast for ${location} updated successfully`);
-      } else {
-        console.log(`Forecast for ${location} is already up to date`);
-      }
-    } else {
-      console.log(`Adding new location: ${location}`);
-      const forecastData = await fetchForecast(location);
-
-      if (forecastData) {
-        await setDoc(locationRef, {
-          name: location,
-          forecast: forecastData,
-          lastUpdated: new Date().toISOString()
-        });
-        console.log(`New location ${location} added successfully`);
-      } else {
-        console.error(`Invalid forecast data for ${location}`);
-      }
-    }
-  } catch (error) {
-    console.error(`Error adding or updating location ${location}:`, error);
-  }
-}
-
-function handleAddOrUpdateLocation() {
-  addOrUpdateLocation(newLocation.value);
-}
-
-
-
-
+const date = new Date();
 </script>
 
 <style scoped>
