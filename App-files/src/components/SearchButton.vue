@@ -33,10 +33,13 @@
   import { searchSharp, closeOutline } from 'ionicons/icons';
   import { findClosestMatches, CityMatch } from '../script/CitySearch';
   import { ref, watch } from 'vue';
+  import axios from 'axios';
   
   const isModalOpen = ref(false);
   const searchTerm = ref('');
   const matches = ref<CityMatch[]>([]);
+
+const emit = defineEmits(['searchCompleted']);
   
   function openSearchModal() {
     isModalOpen.value = true;
@@ -56,11 +59,19 @@
     }
   }
 
-  function SelectCity(match: CityMatch) { 
+  async function SelectCity(match: CityMatch) { 
     /*can use match.city_ascii, match.lat, match.lng, match.admin_name, match.country 
       to enter data for pull here, should be the click on data
     */
-
+    const response = await axios.get('https://api.radar.io/v1/geocode/forward', {
+        params: {
+            query: match.city_ascii,
+        },
+        headers: {
+            Authorization: 'prj_live_pk_de61d39fb19743651d51d8d7490c72116f0c2fcc', // Replace with your actual API key
+        },
+    });
+    emit('searchCompleted', response.data.addresses[0]);
     closeSearchModal();
   }
   
