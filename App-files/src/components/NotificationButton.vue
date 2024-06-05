@@ -29,7 +29,7 @@
 
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { IonButton, IonIcon, IonModal, IonHeader, IonToolbar, IonTitle, IonButtons, IonContent, IonCard, IonCardContent } from '@ionic/vue';
 import { notificationsSharp, closeOutline } from 'ionicons/icons';
 
@@ -55,20 +55,49 @@ const closeModal = () => {
 //Returns an array list of strings
 var notifications = computed(() => generateDailyNotifications());
 
+watch(notifications, () => {
+    hasNewNotifications.value = notifications.value.length > 0;
+});
+
 function generateDailyNotifications() {
 
-    let notifs: Array<string> = []; //our array list that we push our messages into if we have weather conditions for today
-    if (checkForFog()) notifs.push('Visibility is low outside, be careful!');
-    if (rainingToday()) notifs.push('It has a high chance of rain today!');
-    if (snowingToday()) notifs.push('Good chance of Snow today!');
-    if (thunderstormToday()) notifs.push('Thunderstorm inbound!');
-    if (veryHotToday()) notifs.push('Very hot temperatures today.');
-    if (severeHeatToday()) notifs.push('Extreme heat warning! Stay inside!');
-    if (veryColdToday()) notifs.push('Very cold temperatures today.');
-    if (belowFreezingToday()) notifs.push('Below freezing temperatures today.');
-    // if(badAirQualityToday()) notifs.push('Thunderstorm inbound!'); need new api likely
-    // if(extremeWindToday()) notifs.push('Thunderstorm inbound!'); Need to see how we do this first    
-    return notifs;
+let notifs: Array<string> = []; //our array list that we push our messages into if we have weather conditions for today
+if (checkForFog()) {
+    notifs.push('Visibility is low outside, be careful!');
+    hasNewNotifications.value = true;
+}
+if (rainingToday()) {
+    notifs.push('It has a high chance of rain today!');
+    hasNewNotifications.value = true;
+}
+if (snowingToday()) {
+    notifs.push('Good chance of Snow today!');
+    hasNewNotifications.value = true;
+}
+if (thunderstormToday()) {
+    notifs.push('Thunderstorm inbound!');
+    hasNewNotifications.value = true;
+}
+if (veryHotToday()) {
+    notifs.push('Very hot temperatures today.');
+    hasNewNotifications.value = true;
+}
+if (severeHeatToday()) {
+    notifs.push('Extreme heat warning! Stay inside!');
+    hasNewNotifications.value = true;
+}
+if (veryColdToday()) {
+    notifs.push('Very cold temperatures today.');
+    hasNewNotifications.value = true;
+}
+if (belowFreezingToday()) {
+    notifs.push('Below freezing temperatures today.');
+    hasNewNotifications.value = true;
+}
+// if(badAirQualityToday()) notifs.push('Thunderstorm inbound!'); need new api likely
+// if(extremeWindToday()) notifs.push('Thunderstorm inbound!'); Need to see how we do this first  
+
+return notifs;
 }
 
 const veryHotTemp = 30;//30 c = 86 f
@@ -134,7 +163,7 @@ function thunderstormToday() {
 
 <style scoped>
 .iconnoti {
-    color: black
+    color: grey
         /* Placeholder color, adjust as needed */
 }
 
