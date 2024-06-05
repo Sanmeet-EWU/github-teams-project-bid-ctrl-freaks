@@ -13,7 +13,7 @@
     </ion-header>
 
     <ion-content>
-      <MainWeather :city=currentLocation :temperature="currentTemperatureDisplay"
+      <MainWeather :city=currentLocation :temperature="getFormattedTempValue(currentTemperature)"
         :weatherCode="getHourWeatherCode(0)" />
 
       <!-- <div class="infoTab ion-padding">
@@ -23,24 +23,24 @@
         <InfoTab title="Visibility" :value="getHourVisibility(currentHour)" />
       </div> -->
       <div class="infoTab ion-padding">
-        <InfoTab title="Humidity" value="2" />
-        <InfoTab title="Wind" value="2" />
-        <InfoTab title="UV Index" value="3" />
-        <InfoTab title="Visibility" value="10" />
+        <InfoTab title="Humidity" :value="getHourHumidity(0)" />
+        <InfoTab title="Precip. Odd" :value="getHourPrecipChance(0)" />
+        <InfoTab title="Wind" :value="getHourWind(0)" />
+        <InfoTab title="UV Index" :value="getHourUV(0)" />
+        <InfoTab title="Visibility" :value="getHourVisibility(0)" />
       </div>
 
-      <ion-button @click="toggleFavorite('Spokane,WA')">
+      <!-- <ion-button @click="toggleFavorite('Spokane,WA')">
         {{ isFavorite('Spokane,WA') ? 'Remove from Favorites' : 'Add to Favorites' }}
-      </ion-button>
+      </ion-button> -->
 
       <div class="hourly">
         <h6 class="ion-padding-start">Today's Forecast:</h6>
         <div class="infoTab ion-padding">
-          <ion-card class="ion-padding" @click="() => expand(index)" v-for="(temp, index) in hourlyTemps " :key="index">
-            <!--Iterates through array of 24 hourly values, makes card for each one-->
+          <ion-card class="ion-padding" @click="() => expandHourCard(index)" v-for="(temp, index) in hourlyTemps"
+            :key="index">
             <h4>{{ formatHour(index) }}</h4>
-            <!--Calls formatHour function in script based on index to determine if time is AM or PM and print time-->
-            <GetIcon :weatherCode="getHourWeatherCode(index)" :hourOfDay="(currentHour + index) % 24" />
+            <GetIcon :weatherCode="getHourWeatherCode(index)" :hourOfDay="(currentHour + index) % 24"/>
             <h3>{{ getFormattedTempValue(temp) }}</h3> <!--Prints rounded temperature variable from script-->
           </ion-card>
         </div>
@@ -49,18 +49,21 @@
       <div class="daily">
         <h6 class="ion-padding-start">Weekly Forecast:</h6>
         <div class="infoTab ion-padding">
-          <ion-card class="ion-padding" v-for="(hightemps, index) in hightemps" :key="index">
+          <ion-card class="ion-padding" @click="() => expandDayCard(index)"
+            v-for="(dailyMaxTemps, index) in dailyMaxTemps" :key="index">
             <!--Iterates through array of 7 hourly values, makes card for each one-->
 
             <h4>{{ getDay(index) }}</h4>
 
             <h3>High:</h3>
-            <h3>{{ getFormattedTempValue(hightemps) }}</h3> <!--Prints rounded temperature variable from script-->
+            <h3>{{ getFormattedTempValue(getDailyMaxTemp(index)) }}</h3>
+            <!--Prints rounded temperature variable from script-->
             <!--Calls formatHour function in script based on index to determine if time is AM or PM and print time-->
 
-            <GetIcon :weatherCode="getDailyWeatherCode(index)" :hourOfDay="index" />
+            <GetIcon :weatherCode="getDailyWeatherCode(index)" :hourOfDay="12" />
             <h3>Low: </h3>
-            <h3>{{ getFormattedTempValue(mintemps[index]) }}</h3> <!--Prints rounded temperature variable from script-->
+            <h3>{{ getFormattedTempValue(getDailyMinTemp(index)) }}</h3>
+            <!--Prints rounded temperature variable from script-->
           </ion-card>
         </div>
       </div>
@@ -78,16 +81,33 @@
       </div> -->
 
       <teleport to="body">
-        <div v-if="expandedIndex !== null" class="overlay" @click.self="collapse">
+        <div v-if="expandedHourIndex !== null" class="overlay" @click.self="collapseHourCard">
           <ion-card class="expanded-content">
             <ion-card-header>
-              <ion-card-title>{{ formatHour(expandedIndex) }}</ion-card-title>
+              <ion-card-title>{{ formatHour(expandedHourIndex) }}</ion-card-title>
             </ion-card-header>
             <ion-card-content>
-              <h4>Wind: {{ getHourWind(expandedIndex) }} MPH</h4>
-              <h4> Humidity: {{ getHourHumidity(expandedIndex) }}</h4>
-              <h4>Visibility: {{ getHourVisibility(expandedIndex) / 5280 }}</h4>
-              <h4>UV Index: {{ getHourUV(expandedIndex) }}</h4>
+              <h4>Wind: {{ getHourWind(expandedHourIndex) }}</h4>
+              <h4>Humidity: {{ getHourHumidity(expandedHourIndex) }}</h4>
+              <h4>Visibility: {{ (getHourVisibility(expandedHourIndex)) }}</h4>
+              <h4>UV Index: {{ getHourUV(expandedHourIndex) }}</h4>
+            </ion-card-content>
+          </ion-card>
+        </div>
+      </teleport>
+
+      <teleport to="body">
+        <div v-if="expandedDayIndex !== null" class="overlay" @click.self="collapseDayCard">
+          <ion-card class="expanded-content">
+            <ion-card-header>
+              <ion-card-title>{{ getDay(expandedDayIndex) }}</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <h4>Sunrise: {{ getDailySunrise(expandedDayIndex) }}</h4>
+              <h4>Sunset: {{ getDailySunset(expandedDayIndex) }}</h4>
+              <h4>Max UV Index: {{ getDailyMaxUV(expandedDayIndex) }}</h4>
+              <h4>Max Wind: {{ getDailyMaxWind(expandedDayIndex) }} mph</h4>
+              <h4>Precip. Total: {{ getDailyPrecipTotal(expandedDayIndex) }} in</h4>
             </ion-card-content>
           </ion-card>
         </div>
@@ -117,7 +137,8 @@ import NotificationButton from '@/components/NotificationButton.vue';
 import SearchButton from '@/components/SearchButton.vue';
 import GetIcon from "@/components/GetIcon.vue";
 
-const expandedIndex = ref<number | null>(null);
+const expandedHourIndex = ref<number | null>(null);
+const expandedDayIndex = ref<number | null>(null);
 
 const date = new Date();
 const currentHour = date.getHours();
@@ -127,22 +148,27 @@ const currentState = ref("");
 const currentTemperature = ref<number>(0);
 const currentWeatherCode = ref<number>(0);
 
-
-const data = datas;
-
 const hourlyTemps = ref<number[]>([]);
 const hourlyWeatherCodes = ref<number[]>([]);
 const hourlyWind = ref<number[]>([]);
 const hourlyVisibility = ref<number[]>([]);
 const hourlyHumidity = ref<number[]>([]);
 const hourlyUV = ref<number[]>([]);
+const hourlyPrecipChance = ref<number[]>([]);
 
-
-const hightemps = ref(data.daily.temperature_2m_max); //weekly high temps
-const mintemps = ref(data.daily.temperature_2m_min); //weekly low temps
+const dailyWeatherCodes = ref<number[]>([]);
+const dailyMaxTemps = ref<number[]>([]);
+const dailyMinTemps = ref<number[]>([]);
+const dailySunrise = ref<number[]>([]);
+const dailySunset = ref<number[]>([]);
+const dailyUV = ref<number[]>([]);
+const dailyWind = ref<number[]>([]);
+const dailyPrecipTotals = ref<number[]>([]);
 
 const lat = ref<number | null>(null);
 const long = ref<number | null>(null);
+
+const weatherDataLoaded = ref<boolean>(false);
 
 
 
@@ -184,10 +210,15 @@ const currentLocation = computed(() => {
   return `${currentCity.value}, ${currentState.value}`;
 });
 
-function getFormattedTempValue(celcius: number) {
-  return userData.User.tempType === 'celsius'
-    ? `${Math.round(celcius)}°C`
-    : `${Math.round(celcius * 9 / 5 + 32)}°F`;
+function getFormattedTempValue(celsius: number) {
+  const tempUnit = localStorage.getItem('tempUnit') || 'celsius';
+
+  if (tempUnit === 'celsius') {
+    return `${Math.round(celsius)}°C`;
+  } else {
+    const fahrenheit = Math.round(celsius * 9 / 5 + 32);
+    return `${fahrenheit}°F`;
+  }
 }
 
 function formatHour(index: number) {
@@ -197,12 +228,20 @@ function formatHour(index: number) {
   return `${displayHour}:00 ${ampm}`;
 }
 
-function expand(index: number) {
-  expandedIndex.value = index;
+function expandHourCard(index: number) {
+  expandedHourIndex.value = index;
 }
 
-function collapse() {
-  expandedIndex.value = null;
+function collapseHourCard() {
+  expandedHourIndex.value = null;
+}
+
+function expandDayCard(index: number) {
+  expandedDayIndex.value = index;
+}
+
+function collapseDayCard() {
+  expandedDayIndex.value = null;
 }
 
 const favorites = ref<string[]>([]);
@@ -225,24 +264,73 @@ function getHourWeatherCode(hour: number) {
 }
 
 function getHourVisibility(hour: number) {
-  return String(hourlyVisibility.value[hour]);
+  return String(Math.round(hourlyVisibility.value[hour] / 5280)) + " miles";
 }
 
 function getHourWind(hour: number) {
-  return String(hourlyWind.value[hour]);
+  return String(hourlyWind.value[hour]) + " mph";
 }
 
 function getHourHumidity(hour: number) {
-  return String(hourlyHumidity.value[hour]);
+  return String(hourlyHumidity.value[hour]) + "%";
 }
 
 function getHourUV(hour: number) {
   return String(hourlyUV.value[hour]);
 }
 
-function getDailyWeatherCode(day: number) {
-  return Number(data.daily.weather_code[day]);
+function getHourPrecipChance(hour: number) {
+  return String(hourlyPrecipChance.value[hour]) + "%";
 }
+
+function getDailyWeatherCode(day: number) {
+  return Number(dailyWeatherCodes[day]);
+}
+
+function getDailyMaxTemp(day: number) {
+  return String(dailyMaxTemps.value[day]);
+}
+
+function getDailyMinTemp(day: number) {
+  return String(dailyMinTemps.value[day]);
+}
+
+function getDailySunrise(day: number) {
+  return timestampFormatter(dailySunrise.value[day]);
+  //return dailySunrise.value[day];
+}
+
+function getDailySunset(day: number) {
+  return timestampFormatter(dailySunset.value[day]);
+  //return dailySunset.value[day];
+}
+
+function getDailyMaxUV(day: number) {
+  return String(dailyUV.value[day]);
+}
+
+function getDailyMaxWind(day: number) {
+  return dailyWind.value[day];
+}
+
+function getDailyPrecipTotal(day: number) {
+  return dailyPrecipTotals.value[day];
+}
+
+function timestampFormatter(time) {
+  const date = new Date(time);
+
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+
+  const ampm = hours >= 12 ? 'PM' : 'AM';
+  const formattedHours = hours % 12 || 12;
+  const formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
+
+  return `${formattedHours}:${formattedMinutes} ${ampm}`;
+}
+
+
 
 function toggleFavorite(city: string) {
   const index = favorites.value.indexOf(city);
@@ -265,6 +353,10 @@ async function printCurrentPosition() {
     await fetchCityAndState(coordinates.coords.latitude, coordinates.coords.longitude);
   } catch (error) {
     console.error('Error getting location:', error);
+    handleSearchCompleted({
+      city: 'Spokane',
+      state: 'Washington'
+    })
   } finally {
     //loading.value = false;
   }
@@ -316,7 +408,7 @@ async function fetchWeatherDataForSearch(city: string, state: string) {
   }
 }
 
-async function transToCoords(location) {
+async function transToCoords(location: any) {
   const response = await axios.get('https://api.radar.io/v1/geocode/forward', {
     params: {
       query: location,
@@ -331,19 +423,31 @@ async function transToCoords(location) {
 }
 
 function updateWeatherData(forecastData: any) {
+  currentTemperature.value = forecastData.hourly.temperature_2m[currentHour];
+  currentWeatherCode.value = forecastData.hourly.weather_code[currentHour];
+
   hourlyTemps.value = forecastData.hourly.temperature_2m.slice(currentHour, currentHour + 24);
   hourlyWeatherCodes.value = forecastData.hourly.weather_code.slice(currentHour, currentHour + 24);
   hourlyWind.value = forecastData.hourly.wind_speed_10m.slice(currentHour, currentHour + 24);
   hourlyVisibility.value = forecastData.hourly.visibility.slice(currentHour, currentHour + 24);
   hourlyHumidity.value = forecastData.hourly.relative_humidity_2m.slice(currentHour, currentHour + 24);
   hourlyUV.value = forecastData.hourly.uv_index.slice(currentHour, currentHour + 24);
+  hourlyPrecipChance.value = forecastData.hourly.precipitation_probability.slice(currentHour, currentHour + 24);
 
-  currentTemperature.value = forecastData.hourly.temperature_2m[currentHour];
-  currentWeatherCode.value = forecastData.hourly.weather_code[currentHour];
+  dailyWeatherCodes.value = forecastData.daily.weather_code
+  dailyMaxTemps.value = forecastData.daily.temperature_2m_max
+  dailyMinTemps.value = forecastData.daily.temperature_2m_min
+  dailySunrise.value = forecastData.daily.sunrise
+  dailySunset.value = forecastData.daily.sunset
+  dailyUV.value = forecastData.daily.uv_index_max
+  dailyWind.value = forecastData.daily.wind_speed_10m_max
+  dailyPrecipTotals.value = forecastData.daily.precipitation_sum
+
+  weatherDataLoaded.value = true;
 }
 
 async function fetchForecast(latitude: number, longitude: number) {
-  const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,relative_humidity_2m,precipitation_probability,weather_code,visibility,wind_speed_10m,uv_index&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=auto&temperature_unit=celsius`)
+  const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,relative_humidity_2m,precipitation_probability,weather_code,visibility,wind_speed_10m,uv_index&daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max,precipitation_sum,wind_speed_10m_max&wind_speed_unit=mph&precipitation_unit=inch&timezone=auto`)
   return await response.json();
 }
 
@@ -392,13 +496,24 @@ async function addOrUpdateLocation(location: string, latitude: number, longitude
   }
 }
 
+function checkForDarkMode() {
+  if (localStorage.getItem('darkModeEnabled') == 'true') {
+    toggleDarkPalette(true);
+  }
+}
+
+function toggleDarkPalette(shouldAdd: boolean | undefined) {
+  document.documentElement.classList.toggle('ion-palette-dark', shouldAdd);
+};
+
 watch([currentCity, currentState], () => {
   fetchWeatherDataForSearch(currentCity.value, currentState.value);
 });
 
 onMounted(() => {
-  requestLocalNotificationPermission();
+  checkForDarkMode();
   printCurrentPosition();
+  requestLocalNotificationPermission();
 });
 </script>
 
