@@ -86,7 +86,7 @@
             <ion-card-content>
               <h4>Wind: {{ getHourWind(expandedIndex) }} MPH</h4>
               <h4> Humidity: {{ getHourHumidity(expandedIndex) }}</h4>
-              <h4>Visibility: {{ getHourVisibility(expandedIndex) / 5280 }}</h4>
+              <h4>Visibility: {{ Number(getHourVisibility(expandedIndex)) / 5280 }}</h4>
               <h4>UV Index: {{ getHourUV(expandedIndex) }}</h4>
             </ion-card-content>
           </ion-card>
@@ -316,7 +316,7 @@ async function fetchWeatherDataForSearch(city: string, state: string) {
   }
 }
 
-async function transToCoords(location) {
+async function transToCoords(location: any) {
   const response = await axios.get('https://api.radar.io/v1/geocode/forward', {
     params: {
       query: location,

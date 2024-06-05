@@ -8,7 +8,6 @@
   </template>
 
 <script setup lang="ts">
-import { defineProps } from 'vue';
 import { IonCard } from '@ionic/vue';
 
 const props = defineProps<{
