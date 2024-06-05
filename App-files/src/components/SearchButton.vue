@@ -17,7 +17,7 @@
           <ion-input v-model="searchTerm" @input="searchCities" placeholder="Enter search city"></ion-input>
         </ion-item>
         <ion-list>
-          <ion-item v-for="(match, index) in matches" :key="`${match.city_ascii}-${match.lat}-${match.lng}-${index}`">
+          <ion-item v-for="(match, index) in matches" :key="`${match.city_ascii}-${match.lat}-${match.lng}-${index}`" @click="SelectCity(match)">
             <div>
               <strong>{{ match.city_ascii }}</strong> ( {{ match.lat }}, {{ match.lng }} )<br>
               {{ match.admin_name }}, {{ match.country }}
@@ -51,9 +51,17 @@
   function searchCities() {
     if (searchTerm.value.length >= 3) {
       matches.value = findClosestMatches(searchTerm.value);
-    } else if (searchTerm.value.length < 3){
+    } else {
       matches.value = [];
     }
+  }
+
+  function SelectCity(match: CityMatch) { 
+    /*can use match.city_ascii, match.lat, match.lng, match.admin_name, match.country 
+      to enter data for pull here, should be the click on data
+    */
+
+    closeSearchModal();
   }
   
   watch(searchTerm, searchCities);
