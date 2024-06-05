@@ -65,7 +65,7 @@ const emit = defineEmits(['searchCompleted']);
     */
     const response = await axios.get('https://api.radar.io/v1/geocode/forward', {
         params: {
-            query: match.city_ascii,
+            query: match.city_ascii+", "+match.admin_name,
         },
         headers: {
             Authorization: 'prj_live_pk_de61d39fb19743651d51d8d7490c72116f0c2fcc', // Replace with your actual API key
