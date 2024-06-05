@@ -13,7 +13,7 @@
     </ion-header>
 
     <ion-content>
-      <MainWeather :city=currentLocation :temperature="currentTemperatureDisplay"
+      <MainWeather :city=currentLocation :temperature=getFormattedTempValue(hourlyTemps[0])
         :weatherCode="getHourWeatherCode(0)" />
 
       <!-- <div class="infoTab ion-padding">
@@ -173,12 +173,6 @@ function scheduleNotification() {
   });
 }
 
-
-const currentTemperatureDisplay = computed(() => {
-  return hourlyTemps.value.length > 0
-    ? getFormattedTempValue(currentTemperature.value)
-    : 'N/A';
-});
 
 const currentLocation = computed(() => {
   return `${currentCity.value}, ${currentState.value}`;
