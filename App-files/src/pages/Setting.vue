@@ -8,9 +8,7 @@
     <ion-content>
       <ion-list>
         <ion-item>
-
           <ion-label>Dark Mode</ion-label>
-          <!--button toggle where it checks to see if dark is mode is on or not-->
           <ion-toggle :checked="paletteToggle" @ionChange="toggleChange($event)"></ion-toggle>
         </ion-item>
         <ion-item>
@@ -19,20 +17,11 @@
         </ion-item>
         <ion-item>
           <ion-label>GPS</ion-label>
-          <ion-toggle slot="end"></ion-toggle>
-        </ion-item>
-        <ion-item>
-          <ion-label>Location</ion-label>
-          <ion-select slot="end" interface="action-sheet" placeholder=currentLocation>
-            <ion-select-option value="spokane">Spokane, WA</ion-select-option>
-            <ion-select-option value="seattle">Seattle, WA</ion-select-option>
-            <ion-select-option value="portland">Portland, OR</ion-select-option>
-            <ion-select-option value="boise">Boise, ID</ion-select-option>
-          </ion-select>
+          <ion-toggle :checked="gpsPermission" slot="end" disabled></ion-toggle>
         </ion-item>
         <ion-item>
           <ion-label>Temperature</ion-label>
-          <ion-select slot="end" interface="action-sheet" placeholder="Select Metric"
+          <ion-select slot="end" interface="action-sheet" placeholder="Select Degree Metric"
             @ionChange="handleTempTypeChange($event)">
             <ion-select-option value="celsius">Celsius</ion-select-option>
             <ion-select-option value="fahrenheit">Fahrenheit</ion-select-option>
@@ -40,53 +29,81 @@
         </ion-item>
       </ion-list>
     </ion-content>
-
+    
   </ion-page>
 </template>
 
 <script setup lang="ts">
-import userData from './user.json';
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonButton, IonContent, IonSelect, IonItem, IonList, IonSelectOption, IonLabel, IonToggle } from '@ionic/vue';
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonSelect, IonItem, IonList, IonSelectOption, IonLabel, IonToggle } from '@ionic/vue';
 import type { SelectCustomEvent, ToggleCustomEvent } from '@ionic/vue';
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue';
+
 
 const paletteToggle = ref(false);
-
-// Use matchMedia to check the user preference
 const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
 
-// Add or remove the "ion-palette-dark" class on the html element
+const gpsPermission = ref(false);
+
 const toggleDarkPalette = (shouldAdd: boolean | undefined) => {
   document.documentElement.classList.toggle('ion-palette-dark', shouldAdd);
 };
 
-// Check/uncheck the toggle and update the palette based on isDark
 const initializeDarkPalette = (isDark: boolean | undefined) => {
   toggleDarkPalette(isDark);
 };
 
-// Initialize the dark palette based on the initial value of the prefers-color-scheme media query
 initializeDarkPalette(prefersDark.matches);
 
-// Listen for changes to the prefers-color-scheme media query
 prefersDark.addEventListener('change', (mediaQuery) => initializeDarkPalette(mediaQuery.matches));
 
-// Listen for the toggle check/uncheck to toggle the dark palette
+
 const toggleChange = (ev: ToggleCustomEvent) => {
+  paletteToggle.value = ev.detail.checked;
   toggleDarkPalette(ev.detail.checked);
+  localStorage.setItem('darkModeEnabled', ev.detail.checked.toString());
 };
 
-const handleTempTypeChange = (e: SelectCustomEvent) => {
-  //change json file value to e.detail.value
-  userData.User.tempType = e.detail.value;
+function gpsPermissionCheck() {
+  navigator.geolocation.getCurrentPosition(
+    () => {
+      gpsPermission.value = true;
+    },
+    () => {
+      gpsPermission.value = false;
+    }
+  );
+}
+
+
+const handleTempTypeChange = (ev: SelectCustomEvent) => {
+  localStorage.setItem('tempUnit', ev.detail.value);
 };
+
+
+const loadSettings = () => {
+  const darkModeEnabled = localStorage.getItem('darkModeEnabled');
+
+  if (darkModeEnabled !== null) {
+    paletteToggle.value = darkModeEnabled === 'true';
+    toggleDarkPalette(paletteToggle.value);
+  }
+
+  gpsPermissionCheck();
+};
+
+// Load settings when the component is mounted
+onMounted(() => {
+  loadSettings();
+});
+
+
 
 </script>
 
 <style scoped>
 .temp {
-  display: flex;
-  justify-content: center;
-  margin-top: 5rem;
-}
+    display: flex;
+    justify-content: center;
+    margin-top: 5rem;
+  }
 </style>
