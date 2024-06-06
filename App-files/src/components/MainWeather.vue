@@ -22,7 +22,7 @@ const props = defineProps<{
 const weatherMap: { [key: number]: () => { icon: number; name: string; }; default: () => { icon: number; name: string; }; } = {
   1: () => ({ icon: 1, name: "Clear Sky" }),
   2: () => ({ icon: 2, name: "Mainly Clear" }),
-  3: () => ({ icon: 3, name: "Partially cloudy" }),
+  3: () => ({ icon: 3, name: "Partially Cloudy" }),
   4: () => ({ icon: 4, name: "Overcast" }),
   5: () => ({ icon: 5, name: "Foggy" }),
   6: () => ({ icon: 6, name: "Drizzle" }),
