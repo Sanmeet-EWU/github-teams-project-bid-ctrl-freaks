@@ -200,12 +200,6 @@ function scheduleNotification() {
 }
 
 
-const currentTemperatureDisplay = computed(() => {
-  return hourlyTemps.value.length > 0
-    ? getFormattedTempValue(currentTemperature.value)
-    : 'N/A';
-});
-
 const currentLocation = computed(() => {
   return `${currentCity.value}, ${currentState.value}`;
 });
