@@ -1,4 +1,13 @@
-<b> Install instruction </b> <br/>
+Welcome to the **Weather Assistant Tool** App!!! <br/>
+<br/>
+The **Weather Assistant Tool** is a comprehensive app designed to provide the latest weather updates for any selected location. With a range of functionalities, it ensures users have a seamless experience. Utilizing **GPS**, it can automatically detect and provide weather information for your current location. For broader searches, the **global search** feature allows users to find weather updates for any place worldwide. To keep users informed, the app includes customizable **notifications** for weather changes and alerts. Users can also set **favorite locations** for quick access and view their **search history** for convenience. The app supports both **dark and light modes**, catering to user preferences for visual comfort. Additionally, it allows easy switching between **Fahrenheit and Celsius**, ensuring users can view temperature data in their preferred unit.
+<br/>
+<br/>
+
+
+
+
+**Install instruction** <br/>
 -Install node.js <br/>
 -Install Android Studio (optional if you want to run Android emulator)<br/>
 
