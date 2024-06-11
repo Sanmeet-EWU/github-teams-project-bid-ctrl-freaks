@@ -12,7 +12,7 @@ Go to the command prompt and enter: <br/>
 (Installing Ionic and capacitor to make emulator) <br/>
 CD in command prompt to where you want to put the folder <br/>
 <br/>
-
+Now run these commands to clone and run the necessary function: <br/>
 > ``git clone https://github.com/Sanmeet-EWU/github-teams-project-bid-ctrl-freaks.git`` <br/>
 > ``cd ./github-teams-project-bid-ctrl-freaks`` <br/>
 > ``cd ./App-files`` <br/>
