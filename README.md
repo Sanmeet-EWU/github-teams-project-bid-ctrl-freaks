@@ -4,6 +4,8 @@ The **Weather Assistant Tool** is a comprehensive app designed to provide the la
 <br/>
 <br/>
 
+We have our live example here: [Website Link](https://cscd-350-weather-app.web.app/pages/weather )
+
 **To view the code for the app please navigate to the App-Files folder.** <br><br>
 
 For installation and usage instructions please refer to the User Manual here: [Link to the User Manual](https://github.com/Sanmeet-EWU/github-teams-project-bid-ctrl-freaks/blob/main/User_Manual_350.pdf)
