@@ -30,10 +30,15 @@ Now run these commands to clone and run the necessary function: <br/>
 > ``npm install @capacitor/geolocation`` <br/>
 > ``npm install @capacitor/local-notifications`` <br/>
 > ``npm install firebase`` <br/>
-> ``npm install && ionic serve`` <br/>
+> ``npm install `` <br/>
+> ``npm ionic serve`` <br/>
 (run this command should open up the app in the browser. If not then you're missing vue or ionic) <br/>
 <br/>
 You should now be good to open the <b>App-files folder(open the entire App-files folder or it doesn't work)</b> with a code editor like VScode (required Vue, Typescript, and Ionic extension) to edit the code within the src folder <br/>
+<br/>
+You can now start the app within VSCode with commands: <br/>
+
+``npm ionic serve`` or ``npm run dev``
 
 <br/>
 <br/>
